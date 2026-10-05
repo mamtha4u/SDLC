@@ -1,0 +1,237 @@
+{
+ "region": "eu-west-1",
+ "fetched_at": "2026-10-02T10:45:56Z",
+ "sources": {
+  "AWSLambda": {
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AWSLambda/current/eu-west-1/index.json",
+   "published": "2026-10-01T18:47:46Z"
+  },
+  "AWSQueueService": {
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AWSQueueService/current/eu-west-1/index.json",
+   "published": "2026-09-11T12:46:07Z"
+  },
+  "AmazonApiGateway": {
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonApiGateway/current/eu-west-1/index.json",
+   "published": "2026-09-21T23:14:04Z"
+  },
+  "AmazonCloudWatch": {
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonCloudWatch/current/eu-west-1/index.json",
+   "published": "2026-09-22T02:17:15Z"
+  },
+  "AmazonSNS": {
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonSNS/current/eu-west-1/index.json",
+   "published": "2026-09-15T15:19:44Z"
+  }
+ },
+ "prices": {
+  "lambda_requests": {
+   "tiers": [
+    {
+     "from": 0.0,
+     "to": null,
+     "usd": 2e-07
+    }
+   ],
+   "unit": "Request",
+   "description": "AWS Lambda - Total Requests - EU (Ireland)"
+  },
+  "lambda_requests_arm": {
+   "tiers": [
+    {
+     "from": 0.0,
+     "to": null,
+     "usd": 2e-07
+    }
+   ],
+   "unit": "Requests",
+   "description": "AWS Lambda - Total Requests for ARM - EU (Ireland)"
+  },
+  "lambda_gbs": {
+   "tiers": [
+    {
+     "from": 0.0,
+     "to": 6000000000.0,
+     "usd": 1.66667e-05
+    },
+    {
+     "from": 6000000000.0,
+     "to": 15000000000.0,
+     "usd": 1.5e-05
+    },
+    {
+     "from": 15000000000.0,
+     "to": null,
+     "usd": 1.33334e-05
+    }
+   ],
+   "unit": "Lambda-GB-Second",
+   "description": "AWS Lambda - Total Compute - EU (Ireland)-Tier-1"
+  },
+  "lambda_gbs_arm": {
+   "tiers": [
+    {
+     "from": 0.0,
+     "to": 7500000000.0,
+     "usd": 1.33334e-05
+    },
+    {
+     "from": 7500000000.0,
+     "to": 18750000000.0,
+     "usd": 1.20001e-05
+    },
+    {
+     "from": 18750000000.0,
+     "to": null,
+     "usd": 1.06667e-05
+    }
+   ],
+   "unit": "Lambda-GB-Second",
+   "description": "AWS Lambda - Total Compute for ARM - EU (Ireland)-Tier-1"
+  },
+  "sqs_standard": {
+   "tiers": [
+    {
+     "from": 0.0,
+     "to": 100000000000.0,
+     "usd": 4e-07
+    },
+    {
+     "from": 100000000000.0,
+     "to": 200000000000.0,
+     "usd": 3e-07
+    },
+    {
+     "from": 200000000000.0,
+     "to": null,
+     "usd": 2.4e-07
+    }
+   ],
+   "unit": "Requests",
+   "description": "$0.40 per million Amazon SQS standard requests in Tier1 in EU (Ireland)"
+  },
+  "sqs_fifo": {
+   "tiers": [
+    {
+     "from": 0.0,
+     "to": 100000000000.0,
+     "usd": 5e-07
+    },
+    {
+     "from": 100000000000.0,
+     "to": 200000000000.0,
+     "usd": 4e-07
+    },
+    {
+     "from": 200000000000.0,
+     "to": null,
+     "usd": 3.5e-07
+    }
+   ],
+   "unit": "Requests",
+   "description": "$0.50 per million Amazon SQS FIFO requests in Tier1 in EU (Ireland)"
+  },
+  "sqs_free": {
+   "tiers": [
+    {
+     "from": 0.0,
+     "to": 1000000.0,
+     "usd": 0.0
+    }
+   ],
+   "unit": "Requests",
+   "description": "First 1,000,000 Amazon SQS Requests per month are free"
+  },
+  "apigw_rest": {
+   "tiers": [
+    {
+     "from": 0.0,
+     "to": 333000000.0,
+     "usd": 3.5e-06
+    },
+    {
+     "from": 333000000.0,
+     "to": 1000000000.0,
+     "usd": 3.19e-06
+    },
+    {
+     "from": 1000000000.0,
+     "to": 20000000000.0,
+     "usd": 2.71e-06
+    },
+    {
+     "from": 20000000000.0,
+     "to": null,
+     "usd": 1.72e-06
+    }
+   ],
+   "unit": "Requests",
+   "description": "$3.50/million requests - first 333 million requests/month"
+  },
+  "apigw_http": {
+   "tiers": [
+    {
+     "from": 0.0,
+     "to": 300000000.0,
+     "usd": 1.11e-06
+    },
+    {
+     "from": 300000000.0,
+     "to": null,
+     "usd": 1e-06
+    }
+   ],
+   "unit": "Requests",
+   "description": "$1.11/million requests - API Gateway HTTP API (first 300 million)"
+  },
+  "logs_ingest": {
+   "tiers": [
+    {
+     "from": 0.0,
+     "to": null,
+     "usd": 0.57
+    }
+   ],
+   "unit": "GB",
+   "description": "$0.57 per GB custom log data ingested in Standard log class - EU (Ireland)"
+  },
+  "logs_storage": {
+   "tiers": [
+    {
+     "from": 0.0,
+     "to": null,
+     "usd": 0.03
+    }
+   ],
+   "unit": "GB-Mo",
+   "description": "$0.03 per GB-mo of log storage - EU (Ireland)"
+  },
+  "alarm": {
+   "tiers": [
+    {
+     "from": 0.0,
+     "to": null,
+     "usd": 0.1
+    }
+   ],
+   "unit": "Alarms",
+   "description": "$0.10 per alarm metric month (standard resolution) - EU (Ireland)"
+  },
+  "sns_requests": {
+   "tiers": [
+    {
+     "from": 0.0,
+     "to": 1000000.0,
+     "usd": 0.0
+    },
+    {
+     "from": 1000000.0,
+     "to": null,
+     "usd": 5e-07
+    }
+   ],
+   "unit": "Requests",
+   "description": "First 1,000,000 Amazon SNS API Requests per month are free"
+  }
+ },
+ "snapshot": true
+}

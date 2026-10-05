@@ -1,0 +1,107 @@
+# Echo's topic map: the BUSINESS requirement only (user, 10-05: "Echo is handled by the business analyst; he doesn't
+# know about S3 and Lambda, so we can't ask him"). Plain English on purpose.
+# It drives: the "What Echo knows" checklist, the optional form, and the "What a good requirement answers" guide.
+# Not here, because other people own them (prompts/phase_topics.yaml): samples, field mapping and transformation rules
+# (Atlas with the data analyst); AWS services, how systems connect, language, retries, environment, naming (Archie with
+# the technical lead); platform, code and testing details (Terra, Dev, Quinn with their people).
+# type: text | longtext | code | select      required: needed before sign-off (or "let Echo suggest")
+sections:
+  - id: overview
+    title: The flow in short
+    icon: target
+    questions:
+      - id: overview.summary
+        label: In one or two sentences, what should this flow do?
+        type: longtext
+        required: true
+        example: Every evening the day's orders from our shop must reach the warehouse team, so they can pack them the next morning.
+      - id: overview.name
+        label: Does it have a name or ID? (interface ID, project name)
+        type: text
+        example: MS2I-511 Standby Aircraft
+      - id: overview.why
+        label: What does the business get from it? (optional)
+        type: text
+        example: The warehouse stops retyping orders by hand
+
+  - id: flow
+    title: From where to where
+    icon: zap
+    questions:
+      - id: flow.steps
+        label: Walk through it step by step, in your words. What happens first, then next?
+        type: longtext
+        required: true
+        example: The shop exports the orders; they're checked; the warehouse system receives them; the warehouse team is told if any are rejected.
+      - id: flow.source
+        label: Where does the data come from? (a system, a team, a partner; skip if there isn't one)
+        type: text
+        example: Our online shop (run by an outside vendor)
+      - id: flow.destination
+        label: Where should it end up? (a system, a team, a report, storage; skip if there isn't one)
+        type: text
+        example: The warehouse system, which sends a copy to finance
+      - id: flow.trigger
+        label: What starts it? (something arrives, a person does something, a fixed time)
+        type: text
+        example: A new export every evening at 10 PM
+
+  - id: volume
+    title: How much & how fast
+    icon: gauge
+    questions:
+      - id: volume.count
+        label: Roughly how many, and when is the busiest time?
+        type: text
+        required: true
+        example: About 100 orders a day, up to 150 before holidays
+      - id: volume.speed
+        label: How quickly must it be done? Does order matter?
+        type: text
+        example: Within 5 minutes; orders must arrive in the order they were placed
+
+  - id: problems
+    title: When things go wrong
+    icon: life-buoy
+    questions:
+      - id: problems.bad_data
+        label: What should happen with something broken or invalid?
+        type: longtext
+        example: Don't pass on anything half-done; keep it so someone can look at it
+      - id: problems.who
+        label: Who needs to know when something fails, and how quickly?
+        type: text
+        example: The support team, the same day
+
+  - id: rules
+    title: Data, retention & rules
+    icon: shield
+    questions:
+      - id: rules.sensitive
+        label: Does the data contain personal or sensitive information?
+        type: select
+        options: ["No personal data", "Yes, contains personal data (PII)", "Confidential business data", "Not sure"]
+      - id: rules.retention
+        label: How long should copies be kept?
+        type: text
+        example: Keep copies 7 days; delete after 90 days
+      - id: rules.audit
+        label: Do you need a record of what happened (audit trail)?
+        type: text
+        example: Every order processed or rejected, with the time
+      - id: rules.availability
+        label: How bad is it if the flow is down, and for how long can it be?
+        type: text
+        example: Up to 4 hours is acceptable; no orders may be lost
+
+  - id: other
+    title: Anything else
+    icon: cpu
+    questions:
+      - id: other.deadlines
+        label: Deadlines, dependencies on other teams, or business rules to respect
+        type: longtext
+        example: Must be live before the holiday season; the vendor changes their export in March
+      - id: other.notes
+        label: Anything else the crew should know?
+        type: longtext

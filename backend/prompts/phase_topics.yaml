@@ -1,0 +1,172 @@
+# What each agent asks the person who owns its phase in its kickoff conversation (user, 10-05: "each area is handled by
+# a different person… a BA doesn't know about S3 and Lambda, so we can't ask him"). Echo's business topics are in
+# intake_questionnaire.yaml. Plain English: the person is an expert in their own field, not in ours.
+# It drives the "What <agent> knows" checklist next to each chat. required: needed before the agent starts (an answer,
+# or "you decide": the agent then proposes and records it as an assumption).
+ba:
+  person: the data analyst
+  sections:
+    - id: transform
+      title: Does the data change on the way?
+      questions:
+        - id: transform.needed
+          label: Is any transformation needed (format, fields, values), or does the data pass through as it is?
+          required: true
+          example: XML in, JSON out, a few fields renamed and the date reformatted
+        - id: transform.input_sample
+          label: A sample of what comes in (paste it or attach the file)
+          required: true
+          example: <Order><OrderId>ORD1001</OrderId><Amount>1500</Amount></Order>
+        - id: transform.output_sample
+          label: A sample of what should go out (if you have one)
+          example: '{"order_id": "ORD1001", "amount": 1500}'
+        - id: transform.mapping
+          label: How do fields map? A table, a mapping sheet or a few lines
+          example: "Order/OrderId → order_id; Order/Amount → amount. Or attach the mapping sheet."
+    - id: rules
+      title: Rules
+      questions:
+        - id: transform.rules
+          label: Rules on values (defaults, formats, lookups, calculations)
+          example: Dates become YYYY-MM-DD; a missing currency defaults to EUR
+        - id: transform.validation
+          label: What makes a record invalid, and what happens to it?
+          example: No OrderId → reject with reason "OrderId missing"
+        - id: transform.filtering
+          label: Should some records be skipped, split or combined?
+          example: Only orders above 0; one output message per order line
+        - id: transform.size
+          label: How big is one message or file, roughly?
+          example: Input under 5 KB, output under 2 KB
+
+ta:
+  person: the technical lead
+  sections:
+    - id: architecture
+      title: The architecture
+      questions:
+        - id: architecture.shape
+          label: The services and the order they run in (Archie proposes one from the flow; you confirm or change it)
+          required: true
+          example: File uploaded to S3 → Lambda transforms it → result written to another S3 bucket
+        - id: architecture.entry
+          label: How the data reaches AWS and how it leaves (API, queue, file, event, schedule)
+          required: true
+          example: Partner calls a REST API (API Gateway); result goes to an SQS queue
+        - id: architecture.connections
+          label: Connection details already known (endpoints, queue names, VPN, credentials by name only)
+          example: "Out: queue alias PULSAR2RTO.ALIAS; credentials in Secrets Manager under orkestra-rto2-creds"
+        - id: architecture.compute
+          label: Compute (Lambda, ECS, EC2) and why
+          example: Lambda (short, event-driven, under 1 minute)
+    - id: tech
+      title: Technology
+      questions:
+        - id: tech.language
+          label: Language, runtime and build tool
+          required: true
+          example: Python 3.14 / Java 21 with Maven
+        - id: tech.standards
+          label: Standards or shared components to use (layers, libraries, logging format)
+          example: Our common logger layer; JSON log lines
+        - id: tech.performance
+          label: Speed and throughput targets that drive sizing (memory, concurrency)
+          example: Under 1 s per message; up to 50 at once
+    - id: operations
+      title: Errors, security and operations
+      questions:
+        - id: ops.retries
+          label: Retries, dead-letter queue and where failed messages are kept
+          example: Retry twice, then a DLQ; failed payloads copied to an S3 error bucket
+        - id: ops.alerts
+          label: Alerting and monitoring (tools, alarms)
+          example: CloudWatch alarm on DLQ depth; Datadog dashboards
+        - id: ops.security
+          label: Encryption, secrets and network (VPC or not)
+          example: AWS-managed encryption; no VPC needed
+        - id: ops.logging
+          label: Log retention in CloudWatch
+          example: 30 days
+    - id: build
+      title: Build
+      questions:
+        - id: build.environment
+          label: Which environment is this for?
+          required: true
+          example: Sandbox
+        - id: build.naming
+          label: Naming convention (names start with orkestra- in this sandbox; yours follows it)
+          example: orkestra-lmb-mint-dev-euwe1-<name>-01
+
+tp:
+  person: the platform engineer
+  sections:
+    - id: platform
+      title: Platform
+      questions:
+        - id: infra.existing
+          label: Existing resources to reuse instead of creating (VPC, subnets, buckets, queues). Used read-only, never changed
+          example: Launch into vpc-0abc… (private subnets); everything else is new
+        - id: infra.tags
+          label: Extra tags your team requires
+          example: cost-centre = 1234, owner = integration-team
+        - id: infra.sizing
+          label: Limits and sizes to set (memory, timeouts, concurrency, retention), if different from the design
+          example: Reserved concurrency 5
+        - id: infra.terraform
+          label: Terraform standards (versions, file layout, modules)
+          example: Terraform 1.9+, AWS provider 6.x, one file per service
+        - id: infra.cost
+          label: Cost limits, or always-on resources to avoid
+          example: No NAT gateway
+
+de:
+  person: the developer
+  sections:
+    - id: code
+      title: Code
+      questions:
+        - id: code.style
+          label: Code style (classes or functions, typing, comments or docstrings)
+          example: Plain functions with type hints; short docstrings
+        - id: code.libraries
+          label: Libraries to use or avoid; shared code to reuse (attach it)
+          example: lxml for XML; our logger.py (attached)
+        - id: code.logging
+          label: Logging (format, levels, what must never be logged)
+          example: One JSON line per event; never log the payload
+        - id: code.errors
+          label: Error handling in the code (exceptions, error codes)
+          example: Raise on bad input with our error codes E100–E199
+        - id: code.config
+          label: Configuration (environment variables, parameters, secrets by name)
+          example: OUTPUT_BUCKET from an environment variable
+        - id: code.tests
+          label: Unit-test expectations beyond the coverage gate (frameworks, naming, mocks)
+          example: pytest, one test file per module
+
+qa:
+  person: the tester
+  sections:
+    - id: testing
+      title: Testing
+      questions:
+        - id: test.priorities
+          label: What matters most to test (the business-critical paths)
+          required: true
+          example: Every valid order arrives exactly once, in the right format
+        - id: test.data
+          label: Test data to use or avoid
+          example: Use the attached samples; never real customer names
+        - id: test.negative
+          label: Negative and edge cases you care about
+          example: Empty file, duplicate order, very large file
+        - id: test.volume
+          label: Volume or load checks needed
+          example: 100 messages in one minute
+        - id: test.exit
+          label: What must be true to sign off (exit criteria)
+          example: All high-priority scenarios pass; no open critical tickets
+        - id: test.out_of_scope
+          label: Anything not to test, or not to touch
+          example: Don't send anything to the real partner endpoint

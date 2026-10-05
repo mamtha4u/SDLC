@@ -1,0 +1,342 @@
+@import "tailwindcss";
+
+/* ───────────────────────── Orkestra design system ─────────────────────────
+   One set of semantic tokens, redefined per theme. Components only ever use tokens.
+   Themes: aurora · midnight · sunset · ocean · forest · cyberpunk (dark / dual-tone)
+           daylight · mono (light)                                                   */
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-text: var(--text);
+  --color-muted: var(--text-muted);
+  --color-line: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-2: var(--primary-2);
+  --color-on-primary: var(--on-primary);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+  --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+}
+
+/* Contrast pass (2026-09-30): muted text ≥ 5:1 on surface, borders visible, glass opaque enough to read over motion,
+   light themes use white cards on a darker canvas so every box is clearly separated. */
+:root,
+[data-theme="aurora"] {
+  --scheme: dark;
+  --bg: #0a0e19; --bg-2: #0f1628; --surface: #161e33; --surface-2: #1d2742;
+  --text: #f1f3fb; --text-muted: #b3bbd6; --border: rgba(255, 255, 255, 0.13);
+  --primary: #8466ff; --primary-2: #22d3ee; --on-primary: #ffffff;
+  --success: #34d399; --warning: #fbbf24; --danger: #fb5372; --info: #38bdf8;
+  --neu-light: rgba(255, 255, 255, 0.05); --neu-dark: rgba(0, 0, 0, 0.6);
+  --glass: rgba(22, 30, 51, 0.78);
+  --aurora-1: #7c5cff; --aurora-2: #22d3ee; --aurora-3: #34d399; --aurora-opacity: 0.5;
+}
+[data-theme="midnight"] {
+  --scheme: dark;
+  --bg: #04060c; --bg-2: #0a0f1c; --surface: #111829; --surface-2: #182038;
+  --text: #eef1fa; --text-muted: #a9b2cc; --border: rgba(165, 180, 255, 0.15);
+  --primary: #7577f5; --primary-2: #b49cfc; --on-primary: #ffffff;
+  --success: #34d399; --warning: #f5b014; --danger: #f87171; --info: #7cb5fb;
+  --neu-light: rgba(255, 255, 255, 0.04); --neu-dark: rgba(0, 0, 0, 0.75);
+  --glass: rgba(17, 24, 41, 0.8);
+  --aurora-1: #3730a3; --aurora-2: #6366f1; --aurora-3: #0ea5e9; --aurora-opacity: 0.42;
+}
+[data-theme="sunset"] {
+  --scheme: dark;
+  --bg: #150914; --bg-2: #1e0e1c; --surface: #2a1428; --surface-2: #361b33;
+  --text: #fff1f6; --text-muted: #dcb4c8; --border: rgba(255, 190, 220, 0.16);
+  --primary: #fb7185; --primary-2: #fbbf24; --on-primary: #1a0a12;
+  --success: #4ade80; --warning: #fcd34d; --danger: #ff5a78; --info: #f0abfc;
+  --neu-light: rgba(255, 220, 235, 0.05); --neu-dark: rgba(0, 0, 0, 0.6);
+  --glass: rgba(42, 20, 40, 0.8);
+  --aurora-1: #f43f5e; --aurora-2: #f59e0b; --aurora-3: #a855f7; --aurora-opacity: 0.45;
+}
+[data-theme="ocean"] {
+  --scheme: dark;
+  --bg: #03121a; --bg-2: #061b26; --surface: #0b2636; --surface-2: #103145;
+  --text: #ecfaff; --text-muted: #a8cbd7; --border: rgba(125, 211, 252, 0.16);
+  --primary: #14c2dd; --primary-2: #5b9bff; --on-primary: #02131a;
+  --success: #2dd4bf; --warning: #facc15; --danger: #fb7185; --info: #7dd3fc;
+  --neu-light: rgba(200, 245, 255, 0.05); --neu-dark: rgba(0, 0, 0, 0.6);
+  --glass: rgba(11, 38, 54, 0.8);
+  --aurora-1: #0ea5e9; --aurora-2: #14b8a6; --aurora-3: #6366f1; --aurora-opacity: 0.45;
+}
+[data-theme="forest"] {
+  --scheme: dark;
+  --bg: #06120c; --bg-2: #0a1a12; --surface: #10261b; --surface-2: #163224;
+  --text: #effbf2; --text-muted: #aacdb6; --border: rgba(134, 239, 172, 0.16);
+  --primary: #34d06e; --primary-2: #b4ec4f; --on-primary: #04130a;
+  --success: #4ade80; --warning: #fbbf24; --danger: #f87171; --info: #5eead4;
+  --neu-light: rgba(210, 255, 225, 0.05); --neu-dark: rgba(0, 0, 0, 0.6);
+  --glass: rgba(16, 38, 27, 0.8);
+  --aurora-1: #16a34a; --aurora-2: #a3e635; --aurora-3: #14b8a6; --aurora-opacity: 0.38;
+}
+[data-theme="cyberpunk"] {
+  --scheme: dark;
+  --bg: #090510; --bg-2: #110a1f; --surface: #1a102e; --surface-2: #23163e;
+  --text: #fff5ff; --text-muted: #cdb4e3; --border: rgba(244, 114, 182, 0.22);
+  --primary: #f472b6; --primary-2: #facc15; --on-primary: #16051a;
+  --success: #34d399; --warning: #facc15; --danger: #ff6b8a; --info: #22d3ee;
+  --neu-light: rgba(255, 200, 255, 0.05); --neu-dark: rgba(0, 0, 0, 0.65);
+  --glass: rgba(26, 16, 46, 0.8);
+  --aurora-1: #ec4899; --aurora-2: #8b5cf6; --aurora-3: #facc15; --aurora-opacity: 0.45;
+}
+[data-theme="daylight"] {
+  --scheme: light;
+  --bg: #dfe5ef; --bg-2: #eef2f8; --surface: #ffffff; --surface-2: #f3f6fb;
+  --text: #0e1528; --text-muted: #434c66; --border: rgba(14, 21, 40, 0.16);
+  --primary: #5b3cf0; --primary-2: #0e7490; --on-primary: #ffffff;
+  --success: #047857; --warning: #b45309; --danger: #d31145; --info: #0369a1;
+  --neu-light: rgba(255, 255, 255, 1); --neu-dark: rgba(110, 125, 155, 0.35);
+  --glass: rgba(255, 255, 255, 0.88);
+  --aurora-1: #a78bfa; --aurora-2: #67e8f9; --aurora-3: #86efac; --aurora-opacity: 0.32;
+}
+[data-theme="mono"] {
+  --scheme: light;
+  --bg: #e2e2e2; --bg-2: #f1f1f1; --surface: #ffffff; --surface-2: #f5f5f5;
+  --text: #0a0a0a; --text-muted: #474747; --border: rgba(0, 0, 0, 0.17);
+  --primary: #111111; --primary-2: #525252; --on-primary: #ffffff;
+  --success: #15803d; --warning: #a16207; --danger: #b91c1c; --info: #1d4ed8;
+  --neu-light: rgba(255, 255, 255, 1); --neu-dark: rgba(0, 0, 0, 0.16);
+  --glass: rgba(255, 255, 255, 0.9);
+  --aurora-1: #c8c8c8; --aurora-2: #a3a3a3; --aurora-3: #dadada; --aurora-opacity: 0.4;
+}
+
+/* `clip`, not `hidden`: hidden on <html> and <body> makes <body> a scroll container that never scrolls, which silently
+   breaks every `position: sticky` (the sticky header, the workspace tab bar, the landing page's pinned story). */
+html { color-scheme: var(--scheme); overflow-x: clip; }
+/* Fluid type: scales smoothly from phones to 4K instead of jumping at breakpoints */
+:root {
+  --fs-hero: clamp(2rem, 1.2rem + 3.4vw, 4.25rem);
+  --fs-h1: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
+  --fs-h2: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+}
+body {
+  overflow-x: clip;
+  min-height: 100dvh;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+::selection { background: color-mix(in srgb, var(--primary) 35%, transparent); }
+
+/* ── Neumorphism + glass primitives ─────────────────────────────────────── */
+@utility neu {
+  background: var(--surface);
+  box-shadow: -6px -6px 16px var(--neu-light), 6px 6px 18px var(--neu-dark);
+  border: 1px solid var(--border);
+}
+@utility neu-sm {
+  background: var(--surface);
+  box-shadow: -3px -3px 8px var(--neu-light), 3px 3px 10px var(--neu-dark);
+  border: 1px solid var(--border);
+}
+@utility neu-inset {
+  background: var(--bg-2);
+  box-shadow: inset -3px -3px 8px var(--neu-light), inset 4px 4px 10px var(--neu-dark);
+  border: 1px solid var(--border);
+}
+@utility glass {
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+}
+@utility text-gradient {
+  background: linear-gradient(110deg, var(--primary), var(--primary-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@utility glow-primary {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary) 55%, transparent),
+    0 0 28px color-mix(in srgb, var(--primary) 40%, transparent);
+}
+@utility focus-ring {
+  outline: none;
+  &:focus-visible { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--primary); }
+}
+
+/* ── Motion ─────────────────────────────────────────────────────────────── */
+@keyframes aurora-drift {
+  0% { transform: translate3d(-8%, -4%, 0) rotate(0deg) scale(1); }
+  50% { transform: translate3d(6%, 5%, 0) rotate(12deg) scale(1.12); }
+  100% { transform: translate3d(-8%, -4%, 0) rotate(0deg) scale(1); }
+}
+@keyframes wave-slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes shimmer { from { background-position: -200% 0; } to { background-position: 200% 0; } }
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ring, var(--primary)) 60%, transparent); }
+  100% { box-shadow: 0 0 0 14px transparent; }
+}
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+@keyframes dash-flow { to { stroke-dashoffset: -44; } }
+@keyframes comet { to { stroke-dashoffset: -100; } }
+@keyframes sonar {
+  0% { transform: scale(0.9); opacity: 0.55; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+@keyframes sweep { 0% { transform: translateX(-120%) skewX(-20deg); } 60%, 100% { transform: translateX(220%) skewX(-20deg); } }
+@keyframes float-y { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes caret { 50% { opacity: 0; } }
+
+/* Rotating light beam that travels around a card's border */
+@property --angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+@keyframes border-spin { to { --angle: 360deg; } }
+.beam-border { position: relative; isolation: isolate; }
+.beam-border::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none; z-index: 1;
+  background: conic-gradient(from var(--angle), transparent 0 62%, var(--beam-1, var(--primary)) 78%, var(--beam-2, var(--primary-2)) 90%, transparent 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: border-spin 5s linear infinite;
+}
+/* Light sweep across primary buttons */
+.shimmer { position: relative; overflow: hidden; }
+.shimmer::after {
+  content: ""; position: absolute; inset: 0; width: 40%; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  animation: sweep 3.2s ease-in-out infinite;
+}
+.sonar { animation: sonar 3s cubic-bezier(0.2, 0.6, 0.3, 1) infinite; }
+.float-y { animation: float-y 5s ease-in-out infinite; }
+/* Hidden-but-scrollable (only kicks in on very short screens) */
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+/* While a dialog is open, freeze the animated backdrop: nothing behind a modal needs to move,
+   and it stops the compositor re-painting everything under the dialog every frame. */
+body.modal-open *:not(.modal-layer, .modal-layer *) { animation-play-state: paused !important; }
+@keyframes fresh-flash { 0%, 30% { background: color-mix(in srgb, var(--primary-2) 18%, transparent); } 100% { background: transparent; } }
+.fresh-flash { animation: fresh-flash 2.6s ease-out; }
+.caret::after { content: "▍"; margin-left: 1px; animation: caret 1s steps(1) infinite; color: var(--primary-2); }
+
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-2) 25%, color-mix(in srgb, var(--surface-2) 60%, var(--text) 8%) 50%, var(--surface-2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+  border-radius: var(--radius-md);
+}
+.pulse-ring { animation: pulse-ring 1.6s ease-out infinite; }
+.spin-slow { animation: spin-slow 6s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+
+/* Rendered markdown (requirement docs, Echo's playback, plans) */
+.md { font-size: 14px; line-height: 1.65; color: var(--text); overflow-wrap: anywhere; }
+.md > :first-child { margin-top: 0; }
+.md h1 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; margin: 1.2em 0 0.5em; }
+.md h2 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 650; margin: 1.3em 0 0.45em; padding-bottom: 0.3em; border-bottom: 1px solid var(--border); }
+.md h3 { font-weight: 650; margin: 1em 0 0.35em; }
+.md p { margin: 0.5em 0; }
+.md ul, .md ol { margin: 0.4em 0 0.6em; padding-left: 1.3em; }
+.md ul { list-style: disc; } .md ol { list-style: decimal; }
+.md li { margin: 0.2em 0; } .md li::marker { color: var(--primary-2); }
+.md strong { font-weight: 650; }
+.md a { color: var(--primary-2); text-decoration: underline; }
+.md code { font-family: var(--font-mono); font-size: 0.86em; background: var(--bg-2); padding: 0.1em 0.35em; border-radius: 6px; }
+.md pre { overflow-x: auto; margin: 0; font-size: 12.5px; line-height: 1.55; }
+.md pre code { background: none; padding: 0; }
+.md .md-table { margin: 0.8em 0; overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+.md table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
+.md th { background: var(--bg-2); text-align: left; font-weight: 600; }
+.md th, .md td { padding: 7px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.md tr:last-child td { border-bottom: 0; }
+.md blockquote { border-left: 3px solid var(--primary); padding-left: 12px; color: var(--text-muted); margin: 0.6em 0; }
+.md hr { border: 0; border-top: 1px solid var(--border); margin: 1.2em 0; }
+.md.crew-md { font-size: 13.5px; line-height: 1.55; }
+.md.crew-md p { margin: 0.2em 0; }
+.md.crew-md > :last-child { margin-bottom: 0; }
+
+/* Document reading view (Documents tab) */
+.md.doc { font-size: 15px; line-height: 1.75; }
+.md.doc h1 { font-size: 1.9rem; margin-top: 0; letter-spacing: -0.01em; }
+.md.doc h2 { font-size: 1.3rem; margin-top: 1.8em; }
+.md.doc h3 { font-size: 1.08rem; }
+
+/* Scrollbars */
+* { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--text) 18%, transparent) transparent; }
+
+/* ── 2026 polish (all from tokens, so every theme gets it) ──────────────────────────────────────────────────────
+   spotlight  a cursor-following light inside a card + a glowing rim near the cursor (--mx/--my set by lib/spotlight)
+   sheen      a 1px highlight along the top edge: glass catching light
+   elev       depth that suits the theme (inner light on dark, soft drop shadow on light)
+   grain      film grain over the backdrop (in Aurora), so big gradients never look flat or banded
+   rail-flow  data packets travelling along a pipeline connector                                                   */
+:root { --elev: inset 0 1px 0 0 rgba(255, 255, 255, 0.05), 0 22px 44px -30px rgba(0, 0, 0, 0.85); --grain: 0.06; }
+[data-theme="daylight"], [data-theme="mono"] {
+  --elev: 0 1px 2px rgba(15, 23, 42, 0.06), 0 14px 34px -20px rgba(15, 23, 42, 0.28); --grain: 0.035;
+}
+.elev { box-shadow: var(--elev); }
+.spotlight { position: relative; isolation: isolate; }
+.spotlight::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; opacity: 0;
+  background: radial-gradient(480px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--primary) 13%, transparent), transparent 46%);
+  transition: opacity 0.35s ease;
+}
+.spotlight::before {
+  content: ""; position: absolute; inset: -1px; z-index: 2; border-radius: inherit; padding: 1px; pointer-events: none; opacity: 0;
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--primary-2) 85%, transparent), transparent 62%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  transition: opacity 0.35s ease;
+}
+.spotlight:hover::after, .spotlight:hover::before { opacity: 1; }
+.sheen { background-image: linear-gradient(90deg, transparent, color-mix(in srgb, var(--text) 16%, transparent) 30%,
+  color-mix(in srgb, var(--primary-2) 40%, transparent) 50%, color-mix(in srgb, var(--text) 16%, transparent) 70%, transparent);
+  background-size: 100% 1px; background-repeat: no-repeat; background-position: top; }
+.lift { transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.25s ease, border-color 0.25s ease; }
+.lift:hover { transform: translateY(-3px); box-shadow: var(--elev), 0 24px 50px -30px color-mix(in srgb, var(--primary) 70%, transparent); }
+.press { transition: transform 0.12s ease; }
+.press:active { transform: scale(0.97); }
+.grain {
+  position: absolute; inset: 0; opacity: var(--grain); mix-blend-mode: overlay; pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+@keyframes gradient-pan { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+@utility text-gradient-anim {
+  background: linear-gradient(100deg, var(--primary), var(--primary-2), var(--primary), var(--primary-2));
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: gradient-pan 8s linear infinite;
+}
+.rail-flow {
+  background-image: linear-gradient(90deg, transparent 0 35%, color-mix(in srgb, var(--primary-2) 95%, white) 50%, transparent 65% 100%);
+  background-size: 240px 100%; background-repeat: repeat-x;
+  animation: rail-move 2.4s linear infinite;
+}
+@keyframes rail-move { from { background-position: -240px 0; } to { background-position: 240px 0; } }
+.tabular { font-variant-numeric: tabular-nums; }
+/* Toasts follow the theme */
+[data-sonner-toaster] [data-sonner-toast] {
+  background: var(--surface) !important; color: var(--text) !important; border: 1px solid var(--border) !important;
+  box-shadow: var(--elev) !important; border-radius: 16px !important; font-family: var(--font-sans);
+}
+[data-sonner-toaster] [data-sonner-toast] [data-description] { color: var(--text-muted) !important; }
+/* Keyboard hint chip */
+.kbd { font-family: var(--font-mono); font-size: 10.5px; line-height: 1; padding: 3px 6px; border-radius: 6px;
+  border: 1px solid var(--border); background: var(--bg-2); color: var(--text-muted); }
+
+/* Theme change: the new theme spreads out as a circle (lib/themes.switchTheme); no cross-fade on top of it */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+/* Landing: equalizer bars, marquee */
+@keyframes eq { from { transform: scaleY(0.3); } to { transform: scaleY(1); } }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee-track { animation: marquee var(--marquee-speed, 40s) linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.fade-x { -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }

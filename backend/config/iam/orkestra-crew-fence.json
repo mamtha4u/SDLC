@@ -1,0 +1,96 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadOnlyEverywhere",
+      "Effect": "Allow",
+      "Action": ["lambda:List*", "lambda:Get*", "sqs:ListQueues", "sqs:GetQueueUrl", "sqs:GetQueueAttributes", "sqs:ListQueueTags",
+                 "sns:List*", "sns:Get*", "apigateway:GET", "logs:Describe*", "cloudwatch:Describe*", "cloudwatch:Get*", "cloudwatch:List*",
+                 "s3:ListAllMyBuckets", "s3:GetBucketLocation", "dynamodb:Describe*", "dynamodb:List*", "cloudformation:Describe*",
+                 "cloudformation:List*", "cloudformation:Get*", "cloudformation:ValidateTemplate", "events:Describe*", "events:List*",
+                 "states:Describe*", "states:List*", "secretsmanager:ListSecrets", "ssm:DescribeParameters", "tag:Get*", "ec2:Describe*",
+                 "kms:Describe*", "kms:List*", "iam:Get*", "iam:List*", "iam:SimulatePrincipalPolicy", "sts:GetCallerIdentity",
+                 "budgets:ViewBudget", "ce:Get*"],
+      "Resource": "*"
+    },
+    {
+      "Sid": "FullControlOfOrkestraNamedResources",
+      "Effect": "Allow",
+      "Action": ["lambda:*", "sqs:*", "sns:*", "logs:*", "s3:*", "dynamodb:*", "cloudformation:*", "events:*", "states:*",
+                 "secretsmanager:*", "ssm:GetParameter*", "ssm:PutParameter", "ssm:DeleteParameter*", "ssm:AddTagsToResource", "cloudwatch:*"],
+      "Resource": ["arn:aws:lambda:eu-west-1:144831534428:function:orkestra-*", "arn:aws:lambda:eu-west-1:144831534428:layer:orkestra-*",
+                   "arn:aws:lambda:eu-west-1:144831534428:layer:orkestra-*:*", "arn:aws:sqs:eu-west-1:144831534428:orkestra-*",
+                   "arn:aws:sns:eu-west-1:144831534428:orkestra-*", "arn:aws:logs:eu-west-1:144831534428:log-group:/aws/lambda/orkestra-*",
+                   "arn:aws:logs:eu-west-1:144831534428:log-group:/aws/apigateway/orkestra-*", "arn:aws:logs:eu-west-1:144831534428:log-group:orkestra-*",
+                   "arn:aws:s3:::orkestra-*", "arn:aws:dynamodb:eu-west-1:144831534428:table/orkestra-*",
+                   "arn:aws:cloudformation:eu-west-1:144831534428:stack/orkestra-*", "arn:aws:events:eu-west-1:144831534428:rule/orkestra-*",
+                   "arn:aws:events:eu-west-1:144831534428:event-bus/orkestra-*", "arn:aws:states:eu-west-1:144831534428:*:orkestra-*",
+                   "arn:aws:secretsmanager:eu-west-1:144831534428:secret:orkestra*", "arn:aws:ssm:eu-west-1:144831534428:parameter/orkestra*",
+                   "arn:aws:cloudwatch:eu-west-1:144831534428:alarm:orkestra-*"]
+    },
+    {
+      "Sid": "LambdaTriggersOnlyForOrkestraFunctions",
+      "Effect": "Allow",
+      "Action": ["lambda:CreateEventSourceMapping", "lambda:UpdateEventSourceMapping", "lambda:DeleteEventSourceMapping"],
+      "Resource": "*",
+      "Condition": {"StringLike": {"lambda:FunctionArn": "arn:aws:lambda:eu-west-1:144831534428:function:orkestra-*"}}
+    },
+    {
+      "Sid": "LambdaTriggerTagsOnCreate",
+      "Effect": "Allow",
+      "Action": ["lambda:TagResource"],
+      "Resource": "arn:aws:lambda:eu-west-1:144831534428:event-source-mapping:*",
+      "Condition": {"StringEquals": {"aws:RequestTag/created_by": "orkestra"}}
+    },
+    {
+      "Sid": "ApiGatewayCreateOnlyTaggedOrkestra",
+      "Effect": "Allow",
+      "Action": ["apigateway:POST"],
+      "Resource": ["arn:aws:apigateway:eu-west-1::/restapis", "arn:aws:apigateway:eu-west-1::/apis", "arn:aws:apigateway:eu-west-1::/tags/*"],
+      "Condition": {"StringEquals": {"aws:RequestTag/created_by": "orkestra"}}
+    },
+    {
+      "Sid": "ApiGatewayChangeOnlyTaggedOrkestra",
+      "Effect": "Allow",
+      "Action": ["apigateway:POST", "apigateway:PUT", "apigateway:PATCH", "apigateway:DELETE"],
+      "Resource": ["arn:aws:apigateway:eu-west-1::/restapis/*", "arn:aws:apigateway:eu-west-1::/apis/*", "arn:aws:apigateway:eu-west-1::/tags/*"],
+      "Condition": {"StringEquals": {"aws:ResourceTag/created_by": "orkestra"}}
+    },
+    {
+      "Sid": "IamOnlyForOrkestraRoles",
+      "Effect": "Allow",
+      "Action": ["iam:DeleteRole", "iam:UpdateRole", "iam:UpdateAssumeRolePolicy", "iam:TagRole", "iam:UntagRole", "iam:PutRolePolicy",
+                 "iam:DeleteRolePolicy", "iam:DetachRolePolicy", "iam:PassRole"],
+      "Resource": "arn:aws:iam::144831534428:role/orkestra-*"
+    },
+    {
+      "Sid": "NewRolesOnlyWithTheAgentBoundary",
+      "Effect": "Allow",
+      "Action": ["iam:CreateRole", "iam:AttachRolePolicy", "iam:PutRolePermissionsBoundary"],
+      "Resource": "arn:aws:iam::144831534428:role/orkestra-*",
+      "Condition": {"StringEquals": {"iam:PermissionsBoundary": "arn:aws:iam::144831534428:policy/orkestra-agent-boundary"}}
+    },
+    {
+      "Sid": "ActAsOrkestraAgentRoles",
+      "Effect": "Allow",
+      "Action": ["sts:AssumeRole", "sts:TagSession"],
+      "Resource": "arn:aws:iam::144831534428:role/orkestra-*"
+    },
+    {
+      "Sid": "NeverChangeThePlatformOrTheBoundary",
+      "Effect": "Deny",
+      "Action": ["iam:CreatePolicyVersion", "iam:DeletePolicy", "iam:DeletePolicyVersion", "iam:SetDefaultPolicyVersion",
+                 "iam:PutRolePolicy", "iam:DeleteRolePolicy", "iam:AttachRolePolicy", "iam:DetachRolePolicy", "iam:UpdateAssumeRolePolicy",
+                 "iam:DeleteRole", "iam:DeleteRolePermissionsBoundary", "iam:PutRolePermissionsBoundary", "iam:UpdateRole"],
+      "Resource": ["arn:aws:iam::144831534428:policy/orkestra-agent-boundary", "arn:aws:iam::144831534428:role/orkestra-host-role"]
+    },
+    {
+      "Sid": "IrelandOnlyExceptClaude",
+      "Effect": "Deny",
+      "NotAction": ["bedrock:*", "aws-marketplace:*", "iam:*", "sts:*", "budgets:*", "ce:*", "tag:*", "s3:ListAllMyBuckets",
+                    "health:*", "support:*"],
+      "Resource": "*",
+      "Condition": {"StringNotEquals": {"aws:RequestedRegion": "eu-west-1"}}
+    }
+  ]
+}

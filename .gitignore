@@ -1,0 +1,21 @@
+# Secrets
+keys.txt
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+
+# Node
+node_modules/
+dist/
+tsconfig.tsbuildinfo
+
+# Data
+backend/data/projects/
+
+# Misc
+*.log
+.env
